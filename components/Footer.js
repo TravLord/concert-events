@@ -9,6 +9,7 @@ export default function Footer() {
             <p>Copyright &copy; Concert Events 2022</p>
             <p>
                 <Link href='/about'>About this Project</Link>
+                <p>yellow</p>
             </p>
         </footer>
     </div>

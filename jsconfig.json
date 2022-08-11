@@ -1,0 +1,14 @@
+// We are incuding a json object with options for the compiler
+// whenever we import a component or style we can use @components or @styles instead of the 
+// entire file path (ex- ../../styles.module.css)  for all components reference with this prefix
+
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths":{   
+            "@/components/*":["components/*"],
+            "@/styles/*":["styles/*"],
+            "@/config/*": ["config/*"]
+        }
+    }
+}

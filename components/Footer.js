@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import styles from '../styles/Footer.module.css'
+import styles from '@/styles/Footer.module.css'
 import React from 'react'
 
 export default function Footer() {
@@ -9,7 +9,7 @@ export default function Footer() {
             <p>Copyright &copy; Concert Events 2022</p>
             <p>
                 <Link href='/about'>About this Project</Link>
-                <p>yellow</p>
+                
             </p>
         </footer>
     </div>

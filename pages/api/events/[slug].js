@@ -1,7 +1,7 @@
 const {events} = require('./data.json')    //common js syntax because this is running server side
-                                          // we are serving the events(api EP) from data.json
+                                          // we are serving the events (api) from data.json
                                           // then we are limiting the type of request coming in 
-                                          // we only want get requests
+                                          // we only want get requests THIS [SLUG] IS FOR ACCESSING AN INDIVIDUAL ITEM
 export default(req, res) => {
     const evt = events.filter(ev => ev.slug === req.query.slug)
   if(req.method ==='GET') {

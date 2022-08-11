@@ -16,7 +16,7 @@ export default function EventsPage({events}) {
 }
 
   export async function getStaticProps() {
-    const res = await fetch(`${API_URL}/api/events`)
+    const res = await fetch(`${API_URL}/events?_sort=date:ASC`)  //after events this sorts the dates in ascending order to the ui
     const events = await res.json()
 
     // console.log(events)  this runs serverside so it will log in our terminal (server)

@@ -22,13 +22,13 @@ export default function Home({events}) {
 }
 
   export async function getStaticProps() {
-    const res = await fetch(`${API_URL}/api/events`)
+    const res = await fetch(`${API_URL}/events?_sort=date:ASC&_limit=3`)
     const events = await res.json()
 
     // console.log(events)  this runs serverside so it will log in our terminal (server)
 
     return {
-      props: {events:events.slice(0,3) },   //this is how we pass the events into the client side component //from the fetch limiting events to 3 by slice
+      props: {events},   //this is how we pass the events into the client side component //from the fetch limiting events to 3 by slice
       revalidate: 1,     //since the static props are fetched at build time this revaildate option
                         // makes a request again if it can't find it only if data is changed     
     }

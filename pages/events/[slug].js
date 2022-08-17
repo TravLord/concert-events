@@ -1,13 +1,31 @@
+import { useRouter } from 'next/router'
 import styles from '@/styles/Event.module.css'
 import Layout from "@/components/Layout"
 import { API_URL } from "@/config/index"
 import Link from 'next/link'
 import Image from 'next/image'
 import { FaPencilAlt, FaTimes } from 'react-icons/fa'
-export default function EventPage({evt}) {
+import { toast, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
-  const deleteEvent = (e)=>{
-    console.log('delete')
+
+export default function EventPage({evt}) {
+  const router = useRouter()
+  const deleteEvent =  async(e) => {
+    if (confirm('Are you sure?')) {
+      const res = await fetch(`${API_URL}/events/${evt.id}`, {
+        method:'DELETE'
+      })
+
+      const data = await res.json() //get data
+
+      if (!res.ok) {
+        toast.error(data.message)
+        
+      } else {
+        router.push('/events')
+      }
+    }     
   }
   return (
  <Layout>
@@ -28,6 +46,7 @@ export default function EventPage({evt}) {
 
       </span>
       <h1>{evt.name}</h1>
+      <ToastContainer/>
       {evt.image && (
         <div className={styles.image}>
           <Image src={evt.image.formats.medium.url} width={960}
@@ -60,7 +79,7 @@ export default function EventPage({evt}) {
 //   }
 // }
 export async function getStaticPaths(){              //for static website looks at data in URL
- const res = await fetch(`${API_URL}/events`)   //creates all paths using slug
+ const res = await fetch(`${API_URL}/events`)       //creates all paths using slug
  const events = await res.json()                    //passed to getStaticPaths then it will
                                                     //generate all the pages
 
@@ -79,7 +98,7 @@ export async function getStaticProps({params:{slug}}) {
   
     return {
       props: {
-        evt: events[0]
+        evt: events[0]  //we want the first element
       },
       revalidate:1  //checks if data is changed if so new request sent to update
     }

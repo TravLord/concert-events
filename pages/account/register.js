@@ -6,7 +6,7 @@ import { useState, useEffect, useContext } from 'react'
 import Link from "next/link"
 import Layout from "@/components/Layout"
 import styles from '@/styles/AuthForm.module.css'
-import AuthContext, { AuthProvider } from '@/context/AuthContext'
+import AuthContext from '@/context/AuthContext'
 
 
 export default function RegisterPage() {
@@ -24,7 +24,7 @@ const handleSubmit = e => {
         return 
     }
 
-    register({username, email, password})
+    register({userName, email, password})
 }
 
   return (

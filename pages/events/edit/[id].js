@@ -172,9 +172,11 @@ const imageUploaded = async (e) => {
   )
 }
 
-export async function getServerSideProps({params:{id}}) {  //destructure context obj for params then destructure params for id 
+export async function getServerSideProps({params:{id}, req}) {  //destructure context obj for params then destructure params for id 
     const res = await fetch(`${API_URL}/events/${id}`)
     const evt = await res.json()
+
+    // console.log(req.headers.cookie) showing we can pass in the req obj with cookie attached
 
     return {
         props: {

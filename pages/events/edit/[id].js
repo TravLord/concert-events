@@ -11,9 +11,10 @@ import styles from '@/styles/Form.module.css'
 import Image from 'next/image'
 import Modal from '@/components/Modal'
 import ImageUpload from '@/components/ImageUpload'
+import { parseCookies } from '@/helpers/index'
 
 
-export default function EditEventPage({evt}) {
+export default function EditEventPage({evt, token}) {
 const [values, setValues] = useState({   //setting our state values to empty strings initially
   name: evt.name,
   performers: evt.performers,
@@ -40,13 +41,19 @@ if(hasEmptyFields) {
 const res = await fetch(`${API_URL}/events/${evt.id}`, {  //making request to post our edited event
   method: 'PUT', //PUT REQUEST FOR UPDATE
   headers: {
-    'Content-Type': 'application/json'   
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${token}`,
+
   },
   body:JSON.stringify(values) //
 
 })
 
 if(!res.ok) {  //if response is not ok error message
+  if(res.status === 403 || res.status === 401) {
+    toast.error('Unauthorized to edit')
+    return
+  }
   toast.error('Something went wrong')
 
 } else {
@@ -166,21 +173,23 @@ const imageUploaded = async (e) => {
             </button>
         </div>
         <Modal show={showModal} onClose={()=> setShowModal(false)}>
-            <ImageUpload evtId={evt.id} imageUploaded={imageUploaded}/>
+            <ImageUpload evtId={evt.id} imageUploaded={imageUploaded} token={token}/>
         </Modal>
     </Layout>
   )
 }
 
 export async function getServerSideProps({params:{id}, req}) {  //destructure context obj for params then destructure params for id 
+  const {token} = parseCookies(req)
     const res = await fetch(`${API_URL}/events/${id}`)
     const evt = await res.json()
 
-    // console.log(req.headers.cookie) showing we can pass in the req obj with cookie attached
+    console.log(req.headers.cookie) //showing we can pass in the req obj with cookie attached
 
     return {
         props: {
-            evt
+            evt,
+            token
         }
     }
 }

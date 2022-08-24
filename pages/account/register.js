@@ -11,11 +11,13 @@ import AuthContext from '@/context/AuthContext'
 
 export default function RegisterPage() {
 const [email,setEmail]= useState('')
-const [userName,setUserName] = useState('')
+const [username,setUserName] = useState('')
 const [password,setPassword] = useState('')
 const [passwordConfirm, setPasswordConfirm] =useState('')
 
 const {error, register} = useContext(AuthContext)
+
+useEffect(() => {error && toast.error(error)})
 
 const handleSubmit = e => {
     e.preventDefault()
@@ -24,7 +26,7 @@ const handleSubmit = e => {
         return 
     }
 
-    register({userName, email, password})
+    register({username, email, password})
 }
 
   return (
@@ -40,7 +42,7 @@ const handleSubmit = e => {
                 <input 
                 type='text' 
                 id='username'
-                value={userName}
+                value={username}
                 onChange={(e)=> setUserName(e.target.value)} //sets email to the target value (whatever is typed in)
                 />
             </div>
@@ -71,7 +73,7 @@ const handleSubmit = e => {
                 onChange={(e)=> setPasswordConfirm(e.target.value)} //sets password to the target value (whatever is typed in)
                 />
             </div>
-            <input type='submit' value='Login' className='btn'/>
+            <input type='submit' value='Register' className='btn'/>
         </form>
 
         <p>

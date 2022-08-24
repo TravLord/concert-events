@@ -21,9 +21,12 @@ export default async (req,res) => {
         }
     })
 
+    const user = await strapiRes.json()
+
     //we should have our user in strapi res if no errors
     if(strapiRes.ok) {
         res.status(200).json({user})
+        return
     } else {
         res.status(403).json({message: 'User Forbidden'})
     }

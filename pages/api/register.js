@@ -4,10 +4,10 @@ import { API_URL } from '@/config/index'
 // only allow POST requests
 export default async (req,res) => {
     if(req.method === 'POST') {
-        const {identifier, password} = req.body
+        const {username, email, password} = req.body
 
         //we will get our strapi cookie from calling this endpoint
-        const strapiRes = await fetch(`${API_URL}/auth/local`,
+        const strapiRes = await fetch(`${API_URL}/auth/local/register`,
         { 
             method:'POST',
             headers: {
@@ -15,14 +15,15 @@ export default async (req,res) => {
             },
             //pass in obj with identifier and pw
             body:JSON.stringify({
-                identifier,
+                username,
+                email,
                 password
             })
         })
         
         
         const data = await strapiRes.json()
-        
+
         console.log(data.jwt) // contains cookie
         if(strapiRes.ok) {
            //set the cookie name token coming from data.jwt | send back user data is going to be the user and jwt

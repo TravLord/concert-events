@@ -6,9 +6,10 @@ import Link from 'next/link'
 import Layout from '@/components/Layout'
 import { API_URL } from '@/config/index'
 import styles from '@/styles/Form.module.css'
+import { parseCookies } from '@/helpers/index'
 
 
-export default function AddEventPage() {
+export default function AddEventPage({token}) {
 const [values, setValues] = useState({   //setting our state values to empty strings initially
   name:'',
   performers:'',
@@ -30,13 +31,18 @@ if(hasEmptyFields) {
 const res = await fetch(`${API_URL}/events`, {  //making request to post our created event
   method: 'POST',
   headers: {
-    'Content-Type': 'application/json'   
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${token}`
   },
   body:JSON.stringify(values) //
 
 })
 
 if(!res.ok) {  //if response is not ok error message
+  if(res.status === 403 || res.status === 401) {
+    toast.error('No token included')
+    return
+  }
   toast.error('Something went wrong')
 
 } else {
@@ -46,9 +52,6 @@ if(!res.ok) {  //if response is not ok error message
 
 
 }
-
-
-
 
 const handleInputChange=(e) => {
   const { name,value} = e.target  // we want the name and the value of the the event target
@@ -136,3 +139,13 @@ const router = useRouter()
   )
 }
 
+
+export async function getServerSideProps({req}) {
+  const {token} = parseCookies(req)
+
+  return {
+    props: {
+      token
+    }
+  }
+}

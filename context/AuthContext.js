@@ -12,11 +12,32 @@ export const AuthProvider = ({children}) => {
     const[error,setError] = useState(null)
 
     const router = useRouter()
-    useEffect(()=> checkUserLoggedIn(), []) // empty dependency array for ran at each reload
+    useEffect(()=> {checkUserLoggedIn()}, []) // empty dependency array for ran at each reload
    
     //Register user
     const register = async (user)=>{
-        console.log({user})
+        // console.log({user})
+        const res = await fetch(`${NEXT_URL}/api/register`,{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            
+                body: JSON.stringify (user),
+            })
+            const data = await res.json()
+            console.log(data)
+    
+            if(res.ok){
+    
+            setUser(data.user)
+            router.push('/account/dashboard')
+            } else {
+                //data message sent from login
+                setError(data.message)
+                setError(null)
+            }
+    
     }
 
     //Login user email renamed to identifier as that is strapi's name for it
@@ -43,7 +64,7 @@ export const AuthProvider = ({children}) => {
         } else {
             //data message sent from login
             setError(data.message)
-            // setError(null)
+            setError(null)
         }
 
         // console.log({identifier, password})
@@ -65,7 +86,7 @@ export const AuthProvider = ({children}) => {
 
     //Check if user is logged in
     const checkUserLoggedIn = async (user) => {
-        const res = await fetch(`${API_URL}/api/user`)
+        const res = await fetch(`${NEXT_URL}/api/user`)
         const data = await res.json()
 
         //should have user in data response called about in useEffect

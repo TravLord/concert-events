@@ -47,38 +47,38 @@ export default function EventPage({evt}) {
   )
 }
 
-// export async function getServerSideProps({query:{slug}}) {
-// const res = await fetch (`${API_URL}/api/events/${slug}`)
-// const events = await res.json()
+export async function getServerSideProps({query:{slug}}) {
+const res = await fetch (`${API_URL}/events?slug=${slug}`)
+const events = await res.json()
 
-//   return {
-//     props: {
-//       evt: events[0]
-//     },
-//   }
-// }
-export async function getStaticPaths(){              //for static website looks at data in URL
- const res = await fetch(`${API_URL}/events`)       //creates all paths using slug
- const events = await res.json()                    //passed to getStaticPaths then it will
-                                                    //generate all the pages
-
- const paths = events.map(evt => ({
-  params: {slug: evt.slug}
- }))
   return {
-    paths,
-    fallback: true,  //if resource isn't found when true a new request will be made to locate data
+    props: {
+      evt: events[0],
+    },
   }
 }
+// export async function getStaticPaths(){              //for static website looks at data in URL
+//  const res = await fetch(`${API_URL}/events`)       //creates all paths using slug
+//  const events = await res.json()                    //passed to getStaticPaths then it will
+//                                                     //generate all the pages
 
-export async function getStaticProps({params:{slug}}) {
-  const res = await fetch (`${API_URL}/events?slug=${slug}`)
-  const events = await res.json()
+//  const paths = events.map(evt => ({
+//   params: {slug: evt.slug}
+//  }))
+//   return {
+//     paths,
+//     fallback: true,  //if resource isn't found when true a new request will be made to locate data
+//   }
+// }
+
+// export async function getStaticProps({params:{slug}}) {
+//   const res = await fetch (`${API_URL}/events?slug=${slug}`)
+//   const events = await res.json()
   
-    return {
-      props: {
-        evt: events[0]  //we want the first element
-      },
-      revalidate:1  //checks if data is changed if so new request sent to update
-    }
-  }
+//     return {
+//       props: {
+//         evt: events[0]  //we want the first element
+//       },
+//       revalidate:1  //checks if data is changed if so new request sent to update
+//     }
+//   }

@@ -1,13 +1,13 @@
-import { FaUser } from "react-icons/fa"
-import { toast, ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-import { useState } from 'react'
-import { useContext } from "react"
-import { useEffect } from "react"
-import Link from "next/link"
-import Layout from "@/components/Layout"
-import styles from '@/styles/AuthForm.module.css'
-import AuthContext from "@/context/AuthContext"
+import { FaUser } from "react-icons/fa";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useState } from "react";
+import { useContext } from "react";
+import { useEffect } from "react";
+import Link from "next/link";
+import Layout from "@/components/Layout";
+import styles from "@/styles/AuthForm.module.css";
+import AuthContext from "@/context/AuthContext";
 
 
 

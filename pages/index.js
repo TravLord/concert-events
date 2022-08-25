@@ -1,3 +1,4 @@
+
 import Layout from "@/components/Layout"
 import { API_URL } from "@/config/index"  //with module aliases you have to explictly add index 
 import EventItem from "@/components/EventItem"
@@ -8,6 +9,7 @@ export default function Home({events}) {
   <Layout>
     {events.length === 0 && <h3>No Events To Show</h3>} 
       <h1>Upcoming Events</h1>
+      
       {events.map((evt) => (
         <EventItem key={evt.id} evt={evt}/>
       ))}
